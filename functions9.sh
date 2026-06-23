@@ -18,4 +18,11 @@ validate() {
 }
 
 # echo "I am continuing..."
-dnf list install  mysql 
+dnf list installed mysql 
+
+if [ $? -eq 0 ]; then
+    echo "MySQL is already installed ... SKIPPING"
+else
+    echo "Installing MySQL"
+    dnf install mysql -y
+    validate MySQL $?

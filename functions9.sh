@@ -18,4 +18,4 @@ validate() {
 }
 
 # echo "I am continuing..."
-dnf list installed mysql 
+dnf list install  mysql 

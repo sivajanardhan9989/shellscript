@@ -26,3 +26,5 @@ else
     echo "Installing MySQL"
     dnf install mysql -y
     validate MySQL $?
+ fi
+    

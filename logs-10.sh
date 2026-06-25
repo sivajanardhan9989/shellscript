@@ -1,52 +1,42 @@
 #!/bin/bash
- USERID=$(id -u)
-LOGS_DIR=var/log/shellscript
-LOGS_FILE="$LOGS_DIR/$0.log" 
 
+USERID=$(id -u)
+LOGS_DIR=/var/log/shell-script
+LOGS_FILE="$LOGS_DIR/$0.log" # /home/ec2-user/shell-logs/10-logs.sh.log
 
+# Check root access or not
 if [ $USERID -ne 0 ]; then
-    echo "please run this script as root user"
+    echo "Please run this script with root access"
     exit 1
- fi  
+fi
 
-
- #first arg -> what are you trying to install
+# first arg -> what are you trying to install
 # second arg -> exit code
-
-
- validate() {
+VALIDATE(){
     if [ $2 -ne 0 ]; then
-        echo "$1  isntallaion failed to install"
+        echo "Installing $1 is ... FAILED" | tee -a $LOGS_FILE
+        exit 1
     else
-        echo "$1 installed successfully"
+        echo "Installing $1 is ... SUCCESS" | tee -a $LOGS_FILE
     fi
- }
+}
 
-dnf list installed mysql
-
-if [ $? -eq 0 ]; then
-    echo "mysql is  already installed"
-else
-    echo "mysql is not installed"
-    dnf install mysql -y
-    validate "mysql" $?
-fi
-
-
-dnf list installed nginx
+# echo "I am continuing..."
+dnf list installed mysql &>> $LOGS_FILE
 
 if [ $? -eq 0 ]; then
-    echo "nginx is  already installed"
+    echo "MySQL is already installed ... SKIPPING" | tee -a $LOGS_FILE
 else
-    echo "nginx is not installed"
-    dnf install nginx -y
-    validate "nginx" $?
+    echo "Installing MySQL"
+    dnf install mysql -y &>> $LOGS_FILE
+    VALIDATE MySQL $?
 fi
 
-
-
-
-
-
-
-
+dnf list installed nginx &>> $LOGS_FILE
+if [ $? -eq 0 ]; then
+    echo "nginx is already installed ... SKIPPING" | tee -a $LOGS_FILE
+else
+    echo "Installing nginx"
+    dnf install nginx -y &>> $LOGS_FILE
+    VALIDATE MySQL $?
+fi

@@ -1,7 +1,7 @@
 #!/bin/bash
  USERID=$(id -u)
-LOGSDIR=var/log/shellscript
-LOGS_FILE="$LOGS_DIR/$0.log" 
+LOGS_DIR=var/log/shellscript
+LOGS_FILE="$LOGS_DIR/$0.log/" 
 
 
 if [ $USERID -ne 0 ]; then
@@ -42,6 +42,9 @@ else
     dnf install nginx -y
     validate "nginx" $?
 fi
+
+
+
 
 
 

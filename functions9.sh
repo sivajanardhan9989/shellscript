@@ -25,6 +25,7 @@ if [ $? -eq 0 ]; then
     echo "mysql is  already installed"
 else
     echo "mysql is not installed"
+    dnf install mysql -y
     validate "mysql" $?
 fi
 
@@ -35,6 +36,7 @@ if [ $? -eq 0 ]; then
     echo "nginx is  already installed"
 else
     echo "nginx is not installed"
+    dnf install nginx -y
     validate "nginx" $?
 fi
 

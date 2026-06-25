@@ -29,6 +29,16 @@ else
 fi
 
 
+dnf list installed nginx
+
+if [ $? -eq 0 ]; then
+    echo "nginx is  already installed"
+else
+    echo "nginx is not installed"
+    validate "nginx" $?
+fi
+
+
 
 
 
